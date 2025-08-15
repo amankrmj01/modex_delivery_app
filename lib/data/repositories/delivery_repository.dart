@@ -114,9 +114,6 @@ class DeliveryRepository {
     for (final readyOrder in ordersToMove) {
       _assignedOrders.removeWhere((o) => o.id == readyOrder.id);
       _activeOrders.add(readyOrder);
-      print(
-        '🔄 Auto-moved order ${readyOrder.id} to Active Orders (preparation complete)',
-      );
     }
   }
 
@@ -169,8 +166,6 @@ class DeliveryRepository {
 
     _assignedOrders.add(assignedOrder);
     _newOrders.removeAt(newIndex);
-
-    print('✅ Order ${orderId} accepted and preparation started');
   }
 
   // Reject a new order - removes it completely

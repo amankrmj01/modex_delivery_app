@@ -64,7 +64,10 @@ class _HomeScreenState extends State<HomeScreen>
         backgroundColor: secondaryColor,
         title: Text(
           'My Deliveries',
-          style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+          style: GoogleFonts.sansita(
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+          ),
         ),
         actions: [
           // ── DECORATED REFRESH BUTTON ──
@@ -78,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: primaryColor.withOpacity(0.4),
+                    color: primaryColor.withAlpha((0.4 * 255).toInt()),
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),
@@ -98,9 +101,9 @@ class _HomeScreenState extends State<HomeScreen>
           preferredSize: const Size.fromHeight(56),
           child: TabBar(
             controller: _tabController,
-            isScrollable: true,
+            isScrollable: false,
             // ↓ tighter padding keeps text+icon centred in the pill
-            labelPadding: const EdgeInsets.symmetric(horizontal: 20),
+            labelPadding: const EdgeInsets.symmetric(horizontal: 10),
             labelColor: Colors.white,
             unselectedLabelColor: Colors.white70,
             labelStyle: GoogleFonts.poppins(
@@ -121,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen>
             ),
             // ↓ zero padding so the green pill hugs its tab completely
             indicatorPadding: EdgeInsets.only(bottom: 4, top: 4),
-            tabAlignment: TabAlignment.start,
+            tabAlignment: TabAlignment.fill,
             tabs: const [
               _TabItem(text: 'New'),
               _TabItem(text: 'Assigned'),

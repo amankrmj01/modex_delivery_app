@@ -33,14 +33,12 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
   }
 
   // Silent refresh to update order lists without showing loading
-  void _silentRefresh() async {
+  Future<void> _silentRefresh() async {
     try {
       if (state is AssignedOrdersLoaded) {
-        final orders = await deliveryRepository.fetchAssignedOrders();
-        emit(AssignedOrdersLoaded(orders: orders));
+        add(FetchAssignedOrders());
       } else if (state is ActiveOrdersLoaded) {
-        final orders = await deliveryRepository.fetchActiveOrders();
-        emit(ActiveOrdersLoaded(orders: orders));
+        add(FetchActiveOrders());
       }
     } catch (e) {
       // Ignore errors during silent refresh

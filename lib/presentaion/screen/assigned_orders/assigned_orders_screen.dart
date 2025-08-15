@@ -59,7 +59,7 @@ class _AssignedOrdersScreenState extends State<AssignedOrdersScreen> {
       builder: (context, state) {
         if (state is OrderLoading) {
           return const Center(
-            child: CircularProgressIndicator(color: Colors.white),
+            child: CircularProgressIndicator(color: primaryColor),
           );
         }
 
@@ -82,9 +82,41 @@ class _AssignedOrdersScreenState extends State<AssignedOrdersScreen> {
 
         if (state is OrderError) {
           return Center(
-            child: Text(
-              'Error: ${state.message}',
-              style: GoogleFonts.poppins(color: Colors.red, fontSize: 16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                    color: Colors.red.withAlpha(25),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.error_outline,
+                    size: 60,
+                    color: Colors.red.withAlpha(179),
+                  ),
+                ),
+                const SizedBox(height: 24),
+                Text(
+                  'Something went wrong',
+                  style: GoogleFonts.poppins(
+                    color: Colors.red,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  state.message,
+                  style: GoogleFonts.poppins(
+                    color: Colors.red.withAlpha(179),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
             ),
           );
         }
@@ -99,16 +131,43 @@ class _AssignedOrdersScreenState extends State<AssignedOrdersScreen> {
 class _EmptyState extends StatelessWidget {
   const _EmptyState();
 
+  static const Color primaryColor = Color(0xFF1E824C);
+  static const Color secondaryColor = Color(0xFF2C3E50);
+
   @override
   Widget build(BuildContext context) => Center(
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(Icons.assignment_outlined, size: 80, color: Colors.white54),
-        const SizedBox(height: 16),
+        Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: primaryColor.withAlpha(25),
+            shape: BoxShape.circle,
+          ),
+          child: Icon(
+            Icons.assignment_outlined,
+            size: 60,
+            color: primaryColor.withAlpha(153),
+          ),
+        ),
+        const SizedBox(height: 24),
         Text(
           'No assigned orders',
-          style: GoogleFonts.poppins(color: Colors.white70, fontSize: 18),
+          style: GoogleFonts.poppins(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          'New assignments will appear here',
+          style: GoogleFonts.poppins(
+            color: Colors.white,
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+          ),
         ),
       ],
     ),
@@ -150,32 +209,60 @@ class _AssignedCard extends StatelessWidget {
     }
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: const EdgeInsets.only(bottom: 20),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Colors.white, Color(0xFFF8F9FA)],
-        ),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black12,
-            blurRadius: 20,
-            offset: Offset(0, 8),
+            color: secondaryColor.withAlpha(20),
+            blurRadius: 24,
+            offset: const Offset(0, 12),
+            spreadRadius: 0,
+          ),
+          BoxShadow(
+            color: secondaryColor.withAlpha(10),
+            blurRadius: 6,
+            offset: const Offset(0, 2),
+            spreadRadius: 0,
           ),
         ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // ── HEADER ──
-            Row(
+      child: Column(
+        children: [
+          // Header Section
+          Container(
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [secondaryColor, secondaryColor.withAlpha(204)],
+              ),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(24),
+                topRight: Radius.circular(24),
+              ),
+            ),
+            child: Row(
               children: [
-                _iconBox(Icons.assignment_turned_in, Colors.blueAccent),
-                const SizedBox(width: 12),
+                Container(
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withAlpha(51),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: Colors.white.withAlpha(77),
+                      width: 1,
+                    ),
+                  ),
+                  child: const Icon(
+                    Icons.assignment_turned_in_rounded,
+                    color: Colors.white,
+                    size: 28,
+                  ),
+                ),
+                const SizedBox(width: 16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -183,16 +270,20 @@ class _AssignedCard extends StatelessWidget {
                       Text(
                         'Assigned Order',
                         style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          color: Colors.grey[600],
+                          fontSize: 12,
+                          color: Colors.white.withAlpha(204),
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 0.5,
                         ),
                       ),
+                      const SizedBox(height: 4),
                       Text(
-                        '#${order.id}',
+                        'Order #${order.id}',
                         style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w700,
                           fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: secondaryColor,
+                          color: Colors.white,
+                          letterSpacing: -0.5,
                         ),
                       ),
                     ],
@@ -201,162 +292,215 @@ class _AssignedCard extends StatelessWidget {
                 _statusChip(isReady),
               ],
             ),
-            const SizedBox(height: 20),
+          ),
 
-            // ── PREPARATION INFO ──
-            if (!isReady)
-              _infoBox(
-                icon: Icons.timer,
-                iconBg: Colors.orange,
-                title: 'Preparation Time',
-                subtitle: _prepText(),
-                subtitleColor: Colors.orange.shade800,
-              ),
-            if (!isReady) const SizedBox(height: 16),
+          // Content Section
+          Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Preparation Time Section
+                if (!isReady) ...[
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Colors.orange.withAlpha(15),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: Colors.orange.withAlpha(77),
+                        width: 1.5,
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Colors.orange,
+                            borderRadius: BorderRadius.circular(14),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.orange.withAlpha(77),
+                                blurRadius: 8,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: const Icon(
+                            Icons.timer_rounded,
+                            color: Colors.white,
+                            size: 22,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Preparation Time',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 12,
+                                  color: secondaryColor.withAlpha(153),
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 0.3,
+                                ),
+                              ),
+                              const SizedBox(height: 6),
+                              Text(
+                                _prepText(),
+                                style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  color: Colors.orange.shade800,
+                                  fontWeight: FontWeight.w700,
+                                  height: 1.3,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                ],
 
-            // ── ADDRESSES ──
-            _addressRow(
-              icon: Icons.restaurant,
-              iconColor: Colors.red.shade600,
-              label: 'Restaurant',
-              address: order.restaurantAddress ?? 'Address not available',
-              onTap: () => onLaunchMaps(
-                order.restaurantAddress ?? order.deliveryAddress,
-              ),
-            ),
-            const SizedBox(height: 12),
-            _addressRow(
-              icon: Icons.location_on,
-              iconColor: primaryColor,
-              label: 'Delivery Address',
-              address: order.deliveryAddress,
-              onTap: () => onLaunchMaps(order.deliveryAddress),
-            ),
-
-            // ── AUTOMATIC TRANSITION MESSAGE ──
-            if (isReady) ...[
-              const SizedBox(height: 20),
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: primaryColor.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(15),
-                  border: Border.all(
-                    color: primaryColor.withOpacity(0.3),
-                    width: 1,
+                // Restaurant Address
+                _addressRow(
+                  icon: Icons.restaurant_rounded,
+                  iconColor: Colors.red.shade600,
+                  label: 'Restaurant',
+                  address: order.restaurantAddress ?? 'Address not available',
+                  onTap: () => onLaunchMaps(
+                    order.restaurantAddress ?? order.deliveryAddress,
                   ),
                 ),
-                child: Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: primaryColor,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const Icon(
-                        Icons.auto_mode,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        'Order automatically moved to Active Orders!',
-                        style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: primaryColor,
-                        ),
-                      ),
-                    ),
-                  ],
+                const SizedBox(height: 16),
+
+                // Delivery Address
+                _addressRow(
+                  icon: Icons.location_on_rounded,
+                  iconColor: primaryColor,
+                  label: 'Delivery Address',
+                  address: order.deliveryAddress,
+                  onTap: () => onLaunchMaps(order.deliveryAddress),
                 ),
-              ),
-            ],
-          ],
-        ),
+
+                // Ready for pickup notification
+                if (isReady) ...[
+                  const SizedBox(height: 24),
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          primaryColor.withAlpha(15),
+                          primaryColor.withAlpha(25),
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: primaryColor.withAlpha(77),
+                        width: 1.5,
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: primaryColor,
+                            borderRadius: BorderRadius.circular(14),
+                            boxShadow: [
+                              BoxShadow(
+                                color: primaryColor.withAlpha(77),
+                                blurRadius: 8,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: const Icon(
+                            Icons.auto_mode_rounded,
+                            color: Colors.white,
+                            size: 22,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Auto-Transition',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 12,
+                                  color: secondaryColor.withAlpha(153),
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 0.3,
+                                ),
+                              ),
+                              const SizedBox(height: 6),
+                              Text(
+                                'Order automatically moved to Active Orders!',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  color: primaryColor,
+                                  fontWeight: FontWeight.w600,
+                                  height: 1.3,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
 
   // ─────────────  UI HELPERS  ─────────────
-  Widget _iconBox(IconData icon, Color color) => Container(
-    padding: const EdgeInsets.all(12),
-    decoration: BoxDecoration(
-      color: color.withOpacity(0.1),
-      borderRadius: BorderRadius.circular(12),
-    ),
-    child: Icon(icon, color: color, size: 28),
-  );
-
   Widget _statusChip(bool isReady) => Container(
-    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
     decoration: BoxDecoration(
-      gradient: LinearGradient(
-        colors: isReady
-            ? [primaryColor, primaryColor.withOpacity(0.8)]
-            : [Colors.orange, Colors.orange.withOpacity(0.8)],
-      ),
-      borderRadius: BorderRadius.circular(25),
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(20),
       boxShadow: [
         BoxShadow(
-          color: (isReady ? primaryColor : Colors.orange).withOpacity(0.3),
+          color: Colors.black.withAlpha(25),
           blurRadius: 8,
           offset: const Offset(0, 4),
         ),
       ],
     ),
-    child: Text(
-      isReady ? 'Ready' : 'Preparing',
-      style: GoogleFonts.poppins(
-        color: Colors.white,
-        fontWeight: FontWeight.w600,
-      ),
-    ),
-  );
-
-  Widget _infoBox({
-    required IconData icon,
-    required Color iconBg,
-    required String title,
-    required String subtitle,
-    required Color subtitleColor,
-  }) => Container(
-    padding: const EdgeInsets.all(16),
-    decoration: BoxDecoration(
-      color: iconBg.withOpacity(0.1),
-      borderRadius: BorderRadius.circular(15),
-      border: Border.all(color: iconBg.withOpacity(0.3)),
-    ),
     child: Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          padding: const EdgeInsets.all(8),
+          width: 8,
+          height: 8,
           decoration: BoxDecoration(
-            color: iconBg,
-            borderRadius: BorderRadius.circular(10),
+            color: isReady ? primaryColor : Colors.orange,
+            shape: BoxShape.circle,
           ),
-          child: Icon(icon, color: Colors.white, size: 20),
         ),
-        const SizedBox(width: 12),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: GoogleFonts.poppins(fontSize: 12, color: Colors.grey[600]),
-            ),
-            Text(
-              subtitle,
-              style: GoogleFonts.poppins(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: subtitleColor,
-              ),
-            ),
-          ],
+        const SizedBox(width: 8),
+        Text(
+          isReady ? 'Ready' : 'Preparing',
+          style: GoogleFonts.poppins(
+            color: secondaryColor,
+            fontWeight: FontWeight.w600,
+            fontSize: 12,
+            letterSpacing: 0.2,
+          ),
         ),
       ],
     ),
@@ -370,25 +514,32 @@ class _AssignedCard extends StatelessWidget {
     required VoidCallback onTap,
   }) => InkWell(
     onTap: onTap,
-    borderRadius: BorderRadius.circular(12),
+    borderRadius: BorderRadius.circular(20),
     child: Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.grey.shade50,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade200),
+        color: iconColor.withAlpha(10),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: iconColor.withAlpha(31), width: 1.5),
       ),
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: iconColor.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8),
+              color: iconColor,
+              borderRadius: BorderRadius.circular(14),
+              boxShadow: [
+                BoxShadow(
+                  color: iconColor.withAlpha(77),
+                  blurRadius: 8,
+                  offset: const Offset(0, 4),
+                ),
+              ],
             ),
-            child: Icon(icon, color: iconColor, size: 20),
+            child: Icon(icon, color: Colors.white, size: 22),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -397,23 +548,41 @@ class _AssignedCard extends StatelessWidget {
                   label,
                   style: GoogleFonts.poppins(
                     fontSize: 12,
-                    color: Colors.grey[600],
+                    color: secondaryColor.withAlpha(153),
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 0.3,
                   ),
                 ),
+                const SizedBox(height: 6),
                 Text(
                   address,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.poppins(
-                    fontSize: 14,
+                    fontSize: 16,
                     color: secondaryColor,
                     fontWeight: FontWeight.w600,
+                    height: 1.3,
                   ),
                 ),
               ],
             ),
           ),
-          Icon(Icons.pin_drop, color: Colors.grey[400], size: 18),
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: secondaryColor.withAlpha(20),
+                  blurRadius: 8,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Icon(Icons.launch_rounded, color: iconColor, size: 18),
+          ),
         ],
       ),
     ),

@@ -70,7 +70,6 @@ class NotificationService {
 
   static void _onNotificationTapped(NotificationResponse response) {
     // Handle notification tap
-    print('Notification tapped: ${response.payload}');
     // You can navigate to specific screens based on payload
   }
 
