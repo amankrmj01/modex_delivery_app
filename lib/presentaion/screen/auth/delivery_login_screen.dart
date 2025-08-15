@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../bloc/auth/delivery_auth_bloc.dart';
-import '../assigned_order/assigned_orders_screen.dart';
+import '../home/home_screen.dart';
 
 class DeliveryLoginScreen extends StatelessWidget {
   final _emailController = TextEditingController();
@@ -31,11 +31,11 @@ class DeliveryLoginScreen extends StatelessWidget {
           listener: (context, state) {
             if (state is DeliveryAuthSuccess) {
               Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (_) => AssignedOrdersScreen()),
+                MaterialPageRoute(builder: (_) => HomeScreen()),
               );
             } else if (state is DeliveryAuthFailure) {
               Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (_) => AssignedOrdersScreen()),
+                MaterialPageRoute(builder: (_) => HomeScreen()),
               );
               // WidgetsBinding.instance.addPostFrameCallback((_) {
               //   ScaffoldMessenger.of(context).showSnackBar(

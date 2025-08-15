@@ -18,6 +18,11 @@ class OrderModel extends Equatable {
   final String deliveryAddress;
   final List<CartItemModel> items;
   final DateTime date;
+  final Duration? preparationTime;
+  final String? restaurantAddress;
+  final DateTime? deliveryDate;
+  final DateTime? deliveredAt;
+  final double? totalAmount;
 
   const OrderModel({
     required this.id,
@@ -27,9 +32,21 @@ class OrderModel extends Equatable {
     required this.deliveryAddress,
     required this.items,
     required this.date,
+    this.preparationTime,
+    this.restaurantAddress,
+    this.deliveryDate,
+    this.deliveredAt,
+    this.totalAmount,
   });
 
-  OrderModel copyWith({String? status}) {
+  OrderModel copyWith({
+    String? status,
+    Duration? preparationTime,
+    String? restaurantAddress,
+    DateTime? deliveryDate,
+    DateTime? deliveredAt,
+    double? totalAmount,
+  }) {
     return OrderModel(
       id: id,
       userId: userId,
@@ -38,6 +55,11 @@ class OrderModel extends Equatable {
       deliveryAddress: deliveryAddress,
       items: items,
       date: date,
+      preparationTime: preparationTime ?? this.preparationTime,
+      restaurantAddress: restaurantAddress ?? this.restaurantAddress,
+      deliveryDate: deliveryDate ?? this.deliveryDate,
+      deliveredAt: deliveredAt ?? this.deliveredAt,
+      totalAmount: totalAmount ?? this.totalAmount,
     );
   }
 
@@ -50,5 +72,10 @@ class OrderModel extends Equatable {
     deliveryAddress,
     items,
     date,
+    preparationTime,
+    restaurantAddress,
+    deliveryDate,
+    deliveredAt,
+    totalAmount,
   ];
 }
