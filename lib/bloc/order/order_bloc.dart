@@ -20,7 +20,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     on<OrderDelivered>(_onOrderDelivered);
 
     // Start auto-refresh timer to check for orders that moved between tabs
-    _autoRefreshTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
+    _autoRefreshTimer = Timer.periodic(const Duration(seconds: 60), (timer) {
       // Silently refresh current tab data to catch auto-moved orders
       _silentRefresh();
     });

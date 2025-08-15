@@ -13,8 +13,9 @@ class DeliveryRepository {
       userId: 'user_999',
       status: 'Pending Acceptance',
       totalPrice: 22.50,
-      deliveryAddress: '789 New Street, San Francisco, CA',
-      restaurantAddress: '101 Restaurant Ave, San Francisco, CA',
+      deliveryAddress: 'No. 12, TTK Road, Alwarpet, Chennai, Tamil Nadu 600018',
+      restaurantAddress:
+          'Saravana Bhavan, No. 20, North Usman Road, T. Nagar, Chennai, Tamil Nadu 600017',
       items: [],
       date: DateTime.now(),
       preparationTime: Duration(minutes: 25),
@@ -24,8 +25,10 @@ class DeliveryRepository {
       userId: 'user_888',
       status: 'Pending Acceptance',
       totalPrice: 35.75,
-      deliveryAddress: '456 Market St, San Jose, CA',
-      restaurantAddress: '202 Food Court, San Jose, CA',
+      deliveryAddress:
+          'No. 5, Gandhi Irwin Road, Egmore, Chennai, Tamil Nadu 600008',
+      restaurantAddress:
+          'Anjappar Chettinad Restaurant, No. 77, Nungambakkam High Rd, Chennai, Tamil Nadu 600034',
       items: [],
       date: DateTime.now(),
       preparationTime: Duration(minutes: 30),
@@ -38,8 +41,10 @@ class DeliveryRepository {
       userId: 'user_123',
       status: 'Assigned',
       totalPrice: 27.49,
-      deliveryAddress: '1600 Amphitheatre Parkway, Mountain View, CA',
-      restaurantAddress: '123 Restaurant St, Mountain View, CA',
+      deliveryAddress:
+          'No. 18, Cathedral Road, Gopalapuram, Chennai, Tamil Nadu 600086',
+      restaurantAddress:
+          'Sangeetha Veg Restaurant, No. 27, Dr. Radhakrishnan Salai, Mylapore, Chennai, Tamil Nadu 600004',
       items: [],
       date: DateTime.now(),
       preparationTime: Duration(minutes: 1),
@@ -49,9 +54,11 @@ class DeliveryRepository {
       userId: 'user_456',
       status: 'Assigned',
       totalPrice: 32.75,
-      deliveryAddress: '1 Infinite Loop, Cupertino, CA',
-      restaurantAddress: '456 Food Plaza, Cupertino, CA',
       items: [],
+      deliveryAddress:
+          'No. 3, College Road, Nungambakkam, Chennai, Tamil Nadu 600006',
+      restaurantAddress:
+          'Aasife Biriyani, No. 1, Sterling Road, Nungambakkam, Chennai, Tamil Nadu 600034',
       date: DateTime.now(),
       preparationTime: Duration(minutes: 20),
     ),
