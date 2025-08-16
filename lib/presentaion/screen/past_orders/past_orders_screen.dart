@@ -241,12 +241,10 @@ class PastOrdersScreen extends StatelessWidget {
             ),
           ),
 
-          // Content Section
           Padding(
             padding: const EdgeInsets.all(24),
             child: Column(
               children: [
-                // Delivery Address
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
@@ -311,7 +309,6 @@ class PastOrdersScreen extends StatelessWidget {
                   ),
                 ),
 
-                // Delivery Date (if available)
                 if (order.deliveredAt != null) ...[
                   const SizedBox(height: 16),
                   Container(
@@ -377,7 +374,6 @@ class PastOrdersScreen extends StatelessWidget {
                   ),
                 ],
 
-                // Earnings Section (if available)
                 if (order.totalPrice > 0) ...[
                   const SizedBox(height: 16),
                   Container(

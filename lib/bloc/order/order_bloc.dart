@@ -19,9 +19,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     on<OrderPickedUp>(_onOrderPickedUp);
     on<OrderDelivered>(_onOrderDelivered);
 
-    // Start auto-refresh timer to check for orders that moved between tabs
     _autoRefreshTimer = Timer.periodic(const Duration(seconds: 60), (timer) {
-      // Silently refresh current tab data to catch auto-moved orders
       _silentRefresh();
     });
   }
@@ -32,7 +30,6 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     return super.close();
   }
 
-  // Silent refresh to update order lists without showing loading
   Future<void> _silentRefresh() async {
     try {
       if (state is AssignedOrdersLoaded) {
@@ -40,9 +37,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       } else if (state is ActiveOrdersLoaded) {
         add(FetchActiveOrders());
       }
-    } catch (e) {
-      // Ignore errors during silent refresh
-    }
+    } catch (e) {}
   }
 
   Future<void> _onFetchNewOrders(
@@ -163,7 +158,6 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     try {
       await deliveryRepository.deliverOrder(event.orderId);
       emit(OrderDeliverySuccess());
-      // Refresh active orders
       final activeOrders = await deliveryRepository.fetchActiveOrders();
       emit(ActiveOrdersLoaded(orders: activeOrders));
     } catch (e) {

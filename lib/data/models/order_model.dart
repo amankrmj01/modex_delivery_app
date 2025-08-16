@@ -1,10 +1,5 @@
-// data/models/order_model.dart
-// Ensure you have this file copied from the other projects.
-// For clarity, here is its definition again.
 import 'package:equatable/equatable.dart';
 
-// You would also need CartItemModel and MenuItemModel, but for this
-// feature, we can assume they exist and are not directly used in the UI.
 class CartItemModel extends Equatable {
   @override
   List<Object?> get props => [];

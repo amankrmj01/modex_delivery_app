@@ -1,4 +1,3 @@
-// presentation/screens/auth/delivery_login_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,7 +13,6 @@ class DeliveryLoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // A green and dark theme for the delivery app
     const primaryColor = Color(0xFF1E824C);
     const secondaryColor = Color(0xFF2C3E50);
 
@@ -37,15 +35,6 @@ class DeliveryLoginScreen extends StatelessWidget {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (_) => HomeScreen()),
               );
-              // WidgetsBinding.instance.addPostFrameCallback((_) {
-              //   ScaffoldMessenger.of(context).showSnackBar(
-              //     SnackBar(
-              //       content: Text(state.error, style: GoogleFonts.poppins()),
-              //       backgroundColor: Colors.red.shade400,
-              //       behavior: SnackBarBehavior.floating,
-              //     ),
-              //   );
-              // });
             }
           },
           builder: (context, state) {

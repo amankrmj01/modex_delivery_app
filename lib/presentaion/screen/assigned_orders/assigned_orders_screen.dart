@@ -6,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../bloc/order/order_bloc.dart';
-import '../../../bloc/order/order_event.dart';
 import '../../../bloc/order/order_state.dart';
 import '../../../data/models/order_model.dart';
 import '../../../data/repositories/delivery_repository.dart';
@@ -19,20 +18,17 @@ class AssignedOrdersScreen extends StatefulWidget {
 }
 
 class _AssignedOrdersScreenState extends State<AssignedOrdersScreen> {
-  // ─────────────  CONSTANT PALETTE  ─────────────
   static const Color primaryColor = Color(0xFF1E824C);
   static const Color secondaryColor = Color(0xFF2C3E50);
 
-  // ─────────────  AUTO-REFRESH TIMER  ─────────────
   Timer? _refreshTimer;
 
   @override
   void initState() {
     super.initState();
-    // Start auto-refresh timer to check for orders that are ready
     _refreshTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (mounted) {
-        setState(() {}); // Trigger rebuild to update countdown displays
+        setState(() {});
       }
     });
   }
@@ -43,7 +39,6 @@ class _AssignedOrdersScreenState extends State<AssignedOrdersScreen> {
     super.dispose();
   }
 
-  // ─────────────  GOOGLE MAPS LAUNCHER  ─────────────
   Future<void> _launchMaps(String address) async {
     final query = Uri.encodeComponent(address);
     final url = Uri.parse(
@@ -52,7 +47,6 @@ class _AssignedOrdersScreenState extends State<AssignedOrdersScreen> {
     if (await canLaunchUrl(url)) await launchUrl(url);
   }
 
-  // ─────────────  BUILD  ─────────────
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<OrderBloc, OrderState>(
@@ -74,7 +68,6 @@ class _AssignedOrdersScreenState extends State<AssignedOrdersScreen> {
             itemBuilder: (_, i) => _AssignedCard(
               order: state.orders[i],
               onLaunchMaps: _launchMaps,
-              // Pass repository for getting real-time remaining time
               repository: RepositoryProvider.of<DeliveryRepository>(context),
             ),
           );
@@ -127,7 +120,6 @@ class _AssignedOrdersScreenState extends State<AssignedOrdersScreen> {
   }
 }
 
-// ─────────────  EMPTY-STATE WIDGET  ─────────────
 class _EmptyState extends StatelessWidget {
   const _EmptyState();
 
@@ -174,7 +166,6 @@ class _EmptyState extends StatelessWidget {
   );
 }
 
-// ─────────────  CARD WIDGET  ─────────────
 class _AssignedCard extends StatelessWidget {
   const _AssignedCard({
     required this.order,
@@ -193,7 +184,6 @@ class _AssignedCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isReady = order.status == 'Ready for Pickup';
 
-    // Build "mm:ss" for live count-down, fallback to static minutes
     String _prepText() {
       if (isReady) return 'Ready for pickup';
       final remaining = repository.getRemainingPreparationTime(order.id);
@@ -366,7 +356,6 @@ class _AssignedCard extends StatelessWidget {
                   const SizedBox(height: 20),
                 ],
 
-                // Restaurant Address
                 _addressRow(
                   icon: Icons.restaurant_rounded,
                   iconColor: Colors.red.shade600,
@@ -378,7 +367,6 @@ class _AssignedCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
 
-                // Delivery Address
                 _addressRow(
                   icon: Icons.location_on_rounded,
                   iconColor: primaryColor,
@@ -387,7 +375,6 @@ class _AssignedCard extends StatelessWidget {
                   onTap: () => onLaunchMaps(order.deliveryAddress),
                 ),
 
-                // Ready for pickup notification
                 if (isReady) ...[
                   const SizedBox(height: 24),
                   Container(
@@ -467,7 +454,6 @@ class _AssignedCard extends StatelessWidget {
     );
   }
 
-  // ─────────────  UI HELPERS  ─────────────
   Widget _statusChip(bool isReady) => Container(
     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
     decoration: BoxDecoration(

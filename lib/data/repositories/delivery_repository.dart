@@ -1,12 +1,8 @@
-// ----------------------------------------------------------------
-// data/repositories/delivery_repository.dart
 import '../models/order_model.dart';
 
 class DeliveryRepository {
-  // Track when preparation started for each order
   final Map<String, DateTime> _preparationStartTimes = {};
 
-  // Simulated backend data - in real app this would be API calls
   final List<OrderModel> _newOrders = [
     OrderModel(
       id: 'ord_new_001',
@@ -67,19 +63,16 @@ class DeliveryRepository {
   final List<OrderModel> _activeOrders = [];
   final List<OrderModel> _pastOrders = [];
 
-  // Constructor - initialize preparation start times for existing assigned orders
   DeliveryRepository() {
-    // Set preparation start times for orders that are already assigned
     for (final order in _assignedOrders) {
       if (order.status == 'Assigned') {
         _preparationStartTimes[order.id] = DateTime.now().subtract(
-          Duration(minutes: 2), // Simulate orders started 2 minutes ago
+          Duration(minutes: 2),
         );
       }
     }
   }
 
-  // Calculate remaining preparation time for an order
   Duration? getRemainingPreparationTime(String orderId) {
     final startTime = _preparationStartTimes[orderId];
     if (startTime == null) return null;
@@ -105,58 +98,48 @@ class DeliveryRepository {
     return remaining.isNegative ? Duration.zero : remaining;
   }
 
-  // Check and auto-move orders that are ready
   void _checkAndMoveReadyOrders() {
     final ordersToMove = <OrderModel>[];
 
     for (final order in List.from(_assignedOrders)) {
       final remaining = getRemainingPreparationTime(order.id);
       if (remaining != null && remaining <= Duration.zero) {
-        // Order is ready - move to active orders
         ordersToMove.add(order.copyWith(status: 'Ready for Pickup'));
       }
     }
 
-    // Move ready orders to active orders
     for (final readyOrder in ordersToMove) {
       _assignedOrders.removeWhere((o) => o.id == readyOrder.id);
       _activeOrders.add(readyOrder);
     }
   }
 
-  // Fetch new orders available for acceptance
   Future<List<OrderModel>> fetchNewOrders() async {
     await Future.delayed(const Duration(seconds: 1));
     return List<OrderModel>.from(_newOrders);
   }
 
-  // Fetch orders assigned to delivery partner
   Future<List<OrderModel>> fetchAssignedOrders() async {
     await Future.delayed(const Duration(seconds: 1));
 
-    // Check and auto-move ready orders before returning
     _checkAndMoveReadyOrders();
 
     return List<OrderModel>.from(_assignedOrders);
   }
 
-  // Fetch orders that are picked up and being delivered
   Future<List<OrderModel>> fetchActiveOrders() async {
     await Future.delayed(const Duration(milliseconds: 500));
 
-    // Check and auto-move ready orders before returning
     _checkAndMoveReadyOrders();
 
     return List<OrderModel>.from(_activeOrders);
   }
 
-  // Fetch completed deliveries
   Future<List<OrderModel>> fetchPastOrders() async {
     await Future.delayed(const Duration(milliseconds: 500));
     return List<OrderModel>.from(_pastOrders);
   }
 
-  // Accept a new order - moves from new to assigned
   Future<void> acceptOrder(String orderId) async {
     await Future.delayed(const Duration(milliseconds: 500));
 
@@ -168,14 +151,12 @@ class DeliveryRepository {
     final order = _newOrders[newIndex];
     final assignedOrder = order.copyWith(status: 'Assigned');
 
-    // Start preparation timer when order is assigned
     _preparationStartTimes[orderId] = DateTime.now();
 
     _assignedOrders.add(assignedOrder);
     _newOrders.removeAt(newIndex);
   }
 
-  // Reject a new order - removes it completely
   Future<void> rejectOrder(String orderId) async {
     await Future.delayed(const Duration(milliseconds: 300));
 
@@ -185,11 +166,9 @@ class DeliveryRepository {
     }
   }
 
-  // Mark order as picked up from restaurant - moves from assigned/active to active
   Future<void> pickupOrder(String orderId) async {
     await Future.delayed(const Duration(milliseconds: 500));
 
-    // First check if it's in assigned orders
     final assignedIndex = _assignedOrders.indexWhere(
       (order) => order.id == orderId,
     );
@@ -203,7 +182,6 @@ class DeliveryRepository {
       return;
     }
 
-    // Otherwise check if it's already in active orders (status update)
     final activeIndex = _activeOrders.indexWhere(
       (order) => order.id == orderId,
     );
@@ -217,7 +195,6 @@ class DeliveryRepository {
     throw Exception('Order not found in assigned or active orders');
   }
 
-  // Mark order as delivered - moves from active to past
   Future<void> deliverOrder(String orderId) async {
     await Future.delayed(const Duration(milliseconds: 500));
 
@@ -238,12 +215,9 @@ class DeliveryRepository {
     _activeOrders.removeAt(activeIndex);
   }
 
-  // Update order status when preparation time is over (legacy method - now automated)
   Future<void> markOrderReady(String orderId) async {
     await Future.delayed(const Duration(milliseconds: 300));
 
-    // This is now handled automatically by _checkAndMoveReadyOrders()
-    // But keeping for backward compatibility
     _checkAndMoveReadyOrders();
   }
 }

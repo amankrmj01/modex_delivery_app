@@ -251,12 +251,10 @@ class ActiveOrdersScreen extends StatelessWidget {
             ),
           ),
 
-          // Content Section
           Padding(
             padding: const EdgeInsets.all(24),
             child: Column(
               children: [
-                // Delivery Address
                 InkWell(
                   onTap: () => _launchMaps(order.deliveryAddress),
                   borderRadius: BorderRadius.circular(20),

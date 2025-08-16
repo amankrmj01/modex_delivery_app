@@ -20,7 +20,6 @@ class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController;
 
-  // ─────────────  COLOR PALETTE  ─────────────
   static const Color primaryColor = Color(0xFF1E824C);
   static const Color secondaryColor = Color(0xFF2C3E50);
 
@@ -28,7 +27,6 @@ class _HomeScreenState extends State<HomeScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this)..addListener(_onTab);
-    // Load first page
     context.read<OrderBloc>().add(FetchNewOrders());
   }
 
@@ -70,7 +68,6 @@ class _HomeScreenState extends State<HomeScreen>
           ),
         ),
         actions: [
-          // ── DECORATED REFRESH BUTTON ──
           Padding(
             padding: const EdgeInsets.only(right: 12),
             child: Container(
@@ -96,13 +93,11 @@ class _HomeScreenState extends State<HomeScreen>
             ),
           ),
         ],
-        // ── DECORATED TAB BAR ──
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(56),
           child: TabBar(
             controller: _tabController,
             isScrollable: false,
-            // ↓ tighter padding keeps text+icon centred in the pill
             labelPadding: const EdgeInsets.symmetric(horizontal: 10),
             labelColor: Colors.white,
             unselectedLabelColor: Colors.white70,
@@ -114,7 +109,6 @@ class _HomeScreenState extends State<HomeScreen>
               fontWeight: FontWeight.w500,
               fontSize: 14,
             ),
-            // ↓ make the indicator cover the whole tab (icon + text area)
             indicatorSize: TabBarIndicatorSize.tab,
             indicator: BoxDecoration(
               borderRadius: BorderRadius.circular(4),
@@ -122,7 +116,6 @@ class _HomeScreenState extends State<HomeScreen>
                 colors: [primaryColor, primaryColor],
               ),
             ),
-            // ↓ zero padding so the green pill hugs its tab completely
             indicatorPadding: EdgeInsets.only(bottom: 4, top: 4),
             tabAlignment: TabAlignment.fill,
             tabs: const [
@@ -135,7 +128,6 @@ class _HomeScreenState extends State<HomeScreen>
         ),
       ),
 
-      // ── BODY WITH GRADIENT BACKGROUND ──
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -158,7 +150,6 @@ class _HomeScreenState extends State<HomeScreen>
   }
 }
 
-/// A reusable, nicely styled tab item (icon + text).
 class _TabItem extends StatelessWidget {
   const _TabItem({required this.text});
 

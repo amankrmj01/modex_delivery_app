@@ -136,7 +136,6 @@ class _NewOrdersScreenState extends State<NewOrdersScreen> {
             );
           }
 
-          // Start timers for all new orders
           for (final order in state.orders) {
             if (!_timers.containsKey(order.id)) {
               _startAcceptanceTimer(order);
@@ -223,7 +222,6 @@ class _NewOrdersScreenState extends State<NewOrdersScreen> {
       ),
       child: Column(
         children: [
-          // Header Section
           Container(
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
@@ -335,12 +333,10 @@ class _NewOrdersScreenState extends State<NewOrdersScreen> {
             ),
           ),
 
-          // Content Section
           Padding(
             padding: const EdgeInsets.all(24),
             child: Column(
               children: [
-                // Earnings Section
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
@@ -411,7 +407,6 @@ class _NewOrdersScreenState extends State<NewOrdersScreen> {
                 ),
                 const SizedBox(height: 20),
 
-                // Pickup Address
                 _buildAddressRow(
                   icon: Icons.restaurant_rounded,
                   iconColor: Colors.red.shade600,
@@ -433,7 +428,6 @@ class _NewOrdersScreenState extends State<NewOrdersScreen> {
                 ),
                 const SizedBox(height: 24),
 
-                // Action Buttons
                 Row(
                   children: [
                     Expanded(

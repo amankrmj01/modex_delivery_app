@@ -12,12 +12,10 @@ class NotificationService {
   static const String _channelDescription = 'Notifications for delivery orders';
 
   static Future<void> initialize() async {
-    // Android settings
     const androidSettings = AndroidInitializationSettings(
       '@mipmap/ic_launcher',
     );
 
-    // iOS settings
     const iosSettings = DarwinInitializationSettings(
       requestAlertPermission: true,
       requestBadgePermission: true,
@@ -34,10 +32,8 @@ class NotificationService {
       onDidReceiveNotificationResponse: _onNotificationTapped,
     );
 
-    // Create notification channel for Android
     await _createNotificationChannel();
 
-    // Request permissions
     await _requestPermissions();
   }
 
@@ -59,21 +55,15 @@ class NotificationService {
   }
 
   static Future<void> _requestPermissions() async {
-    // Request notification permission
     await Permission.notification.request();
 
-    // For Android 13+ (API level 33+)
     if (await Permission.notification.isDenied) {
       await Permission.notification.request();
     }
   }
 
-  static void _onNotificationTapped(NotificationResponse response) {
-    // Handle notification tap
-    // You can navigate to specific screens based on payload
-  }
+  static void _onNotificationTapped(NotificationResponse response) {}
 
-  // Show immediate notification - REMOVED NotificationPriority parameter
   static Future<void> showNotification({
     required int id,
     required String title,
@@ -88,7 +78,6 @@ class NotificationService {
       priority: Priority.high,
       icon: '@mipmap/ic_launcher',
       color: const Color(0xFF1E824C),
-      // Your primary color
       enableVibration: true,
       playSound: true,
     );
@@ -107,7 +96,6 @@ class NotificationService {
     await _notifications.show(id, title, body, details, payload: payload);
   }
 
-  // Show notification for new order
   static Future<void> showNewOrderNotification({
     required String orderId,
     required double amount,
@@ -134,7 +122,6 @@ class NotificationService {
     );
   }
 
-  // Show notification for delivery reminders
   static Future<void> showDeliveryReminderNotification({
     required String orderId,
     required String address,
@@ -147,7 +134,6 @@ class NotificationService {
     );
   }
 
-  // Schedule notification - FIXED the parameters
   static Future<void> scheduleNotification({
     required int id,
     required String title,
@@ -178,16 +164,13 @@ class NotificationService {
       details,
       payload: payload,
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-      // REMOVED the problematic parameters
     );
   }
 
-  // Cancel specific notification
   static Future<void> cancelNotification(int id) async {
     await _notifications.cancel(id);
   }
 
-  // Cancel all notifications
   static Future<void> cancelAllNotifications() async {
     await _notifications.cancelAll();
   }
